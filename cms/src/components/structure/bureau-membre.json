@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_structure_bureau_membres",
+  "info": {
+    "displayName": "Bureau Membre",
+    "icon": "user",
+    "description": "Associe un membre à une fonction dans une structure"
+  },
+  "options": {},
+  "attributes": {
+    "membre": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::membre.membre"
+    },
+    "fonction": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "temoignages",
+  "info": {
+    "singularName": "temoignage",
+    "pluralName": "temoignages",
+    "displayName": "Témoignage",
+    "description": "Témoignages d'adhérents affichés sur la page d'accueil"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "citation": {
+      "type": "text",
+      "required": true
+    },
+    "nom": {
+      "type": "string",
+      "required": true
+    },
+    "fonction": {
+      "type": "string"
+    },
+    "secteur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::structure.structure",
+      "inversedBy": "temoignages"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "ordre": {
+      "type": "integer"
+    }
+  }
+}

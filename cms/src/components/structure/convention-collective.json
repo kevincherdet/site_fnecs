@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_structure_conventions_collectives",
+  "info": {
+    "displayName": "Convention Collective",
+    "icon": "file",
+    "description": "Convention collective représentée par une USN"
+  },
+  "options": {},
+  "attributes": {
+    "nom": {
+      "type": "string",
+      "required": true
+    },
+    "idcc": {
+      "type": "string"
+    }
+  }
+}

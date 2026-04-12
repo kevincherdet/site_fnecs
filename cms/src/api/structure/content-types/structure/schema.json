@@ -1,0 +1,82 @@
+{
+  "kind": "collectionType",
+  "collectionName": "structures",
+  "info": {
+    "singularName": "structure",
+    "pluralName": "structures",
+    "displayName": "Structure",
+    "description": "Fédération, syndicats (SNEC/SNES) et USN"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "nom",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["federation", "syndicat", "usn"],
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "image_couverture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "syndicat_parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::structure.structure",
+      "inversedBy": "usns"
+    },
+    "usns": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::structure.structure",
+      "mappedBy": "syndicat_parent"
+    },
+    "conventions_collectives": {
+      "type": "component",
+      "repeatable": true,
+      "component": "structure.convention-collective"
+    },
+    "bureau": {
+      "type": "component",
+      "repeatable": true,
+      "component": "structure.bureau-membre"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "secteur"
+    },
+    "temoignages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::temoignage.temoignage",
+      "mappedBy": "secteur"
+    },
+    "capsules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::capsule.capsule",
+      "mappedBy": "secteur"
+    }
+  }
+}

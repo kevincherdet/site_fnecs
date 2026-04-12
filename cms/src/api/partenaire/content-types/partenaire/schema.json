@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partenaires",
+  "info": {
+    "singularName": "partenaire",
+    "pluralName": "partenaires",
+    "displayName": "Partenaire",
+    "description": "Logos partenaires affichés sur la page d'accueil et le footer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nom": {
+      "type": "string",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "lien": {
+      "type": "string",
+      "regex": "^https?://.+"
+    },
+    "ordre": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+import type { Metadata, Viewport } from 'next';
+import { Geist } from 'next/font/google';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import './globals.css';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+export const metadata: Metadata = {
+  title: {
+    default: 'FNECS CFE-CGC — Commerce et Services',
+    template: '%s | FNECS CFE-CGC',
+  },
+  description:
+    'Fédération Nationale de l\'Encadrement du Commerce et des Services — CFE-CGC. Défendre, accompagner et représenter les cadres et agents de maîtrise.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'FNECS',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#1e3a5f',
+  width: 'device-width',
+  initialScale: 1,
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fr" className={`${geistSans.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <Header />
+        <main className="flex-1 pt-16">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}
