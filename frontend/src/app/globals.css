@@ -2,21 +2,34 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a2e;
-  --fnecs-blue: #1e3a5f;
-  --fnecs-blue-dark: #152d4a;
-  --fnecs-blue-light: #2a5080;
-  --fnecs-accent: #e8a838;
+  --foreground: #231F20;
+
+  /* Couleurs FNECS — extraites des variables Figma (maquette Lucie) */
+  --bleu-fede: #0057C2;
+  --bleu-confede: #095CA9;
+  --bleu-clair: #ADC5E3;
+  --vert-fede: #008440;
+  --rouge-confede: #E34E36;
+  --gris-fonce: #42474F;
+  --noir-confede: #231F20;
+  --neutral-lightest: #EEEEEE;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-fnecs-blue: var(--fnecs-blue);
-  --color-fnecs-blue-dark: var(--fnecs-blue-dark);
-  --color-fnecs-blue-light: var(--fnecs-blue-light);
-  --color-fnecs-accent: var(--fnecs-accent);
+
+  --color-bleu-fede: var(--bleu-fede);
+  --color-bleu-confede: var(--bleu-confede);
+  --color-bleu-clair: var(--bleu-clair);
+  --color-vert-fede: var(--vert-fede);
+  --color-rouge-confede: var(--rouge-confede);
+  --color-gris-fonce: var(--gris-fonce);
+  --color-noir-confede: var(--noir-confede);
+  --color-neutral-lightest: var(--neutral-lightest);
+
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-barlow-condensed);
 }
 
 body {

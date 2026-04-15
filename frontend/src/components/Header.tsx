@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -24,73 +25,93 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur">
+      <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
+        <div className="flex h-[72px] items-center justify-between gap-8">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-fnecs-blue">
-            FNECS <span className="text-sm font-normal text-gray-500">CFE-CGC</span>
+          <Link
+            href="/"
+            aria-label="Accueil — FNECS CFE-CGC Commerce et Services"
+            className="relative block h-[52px] w-[175px] shrink-0"
+          >
+            <Image
+              src="/brand/logo-fnecs.svg"
+              alt="FNECS CFE-CGC Commerce et Services"
+              fill
+              priority
+              sizes="175px"
+              className="object-contain object-left"
+            />
           </Link>
 
-          {/* Nav desktop */}
-          <nav className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <div
-                key={item.href}
-                className="relative"
-                onMouseEnter={() => item.children && setOpenDropdown(item.label)}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                <Link
-                  href={item.href}
-                  className="text-sm font-medium text-gray-700 hover:text-fnecs-blue transition-colors"
+          {/* Cluster droit : nav + actions groupés (fidèle au Column Figma) */}
+          <div className="hidden items-center gap-8 lg:flex">
+            <nav className="flex items-center gap-8">
+              {navItems.map((item) => (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => item.children && setOpenDropdown(item.label)}
+                  onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  {item.label}
-                </Link>
-                {item.children && openDropdown === item.label && (
-                  <div className="absolute top-full left-0 mt-1 w-52 rounded-md bg-white shadow-lg ring-1 ring-black/5 py-1">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
+                  <Link
+                    href={item.href}
+                    className="text-base leading-[1.14] text-black transition-colors hover:text-bleu-fede"
+                  >
+                    {item.label}
+                  </Link>
+                  {item.children && openDropdown === item.label && (
+                    <div className="absolute left-0 top-full mt-2 w-56 rounded-xl bg-white py-2 shadow-lg ring-1 ring-black/5">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="block px-4 py-2 text-sm text-gris-fonce transition-colors hover:bg-bleu-fede/5 hover:text-bleu-fede"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
 
-          {/* Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/connexion"
-              className="text-sm font-medium text-gray-700 hover:text-fnecs-blue transition-colors"
-            >
-              Se connecter
-            </Link>
-            <Link
-              href="/adhesion"
-              className="rounded-full bg-fnecs-blue px-5 py-2 text-sm font-semibold text-white hover:bg-fnecs-blue-dark transition-colors uppercase tracking-wide"
-            >
-              J&apos;adhère
-            </Link>
+            <div className="flex items-center gap-[10px]">
+              <Link
+                href="/adhesion"
+                className="inline-flex h-10 w-[160px] items-center justify-center rounded-full bg-gradient-to-r from-bleu-fede to-vert-fede px-5 font-display text-sm font-bold uppercase tracking-[1.2px] text-white transition-[filter] hover:brightness-105"
+              >
+                J&apos;adhère
+              </Link>
+              <Link
+                href="/connexion"
+                className="inline-flex h-10 w-[160px] items-center justify-center rounded-full border border-bleu-confede px-5 font-display text-sm font-bold uppercase tracking-[1.2px] text-bleu-fede transition-colors hover:bg-bleu-fede/5"
+              >
+                Se connecter
+              </Link>
+            </div>
           </div>
 
           {/* Burger mobile */}
           <button
-            className="md:hidden p-2"
+            type="button"
+            className="p-2 text-bleu-fede lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={menuOpen}
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
@@ -99,23 +120,23 @@ export default function Header() {
 
       {/* Menu mobile */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4 space-y-3">
+        <div className="space-y-4 border-t border-black/5 bg-white px-6 py-6 lg:hidden">
           {navItems.map((item) => (
             <div key={item.href}>
               <Link
                 href={item.href}
-                className="block text-sm font-medium text-gray-700"
+                className="block text-base text-black"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
               </Link>
               {item.children && (
-                <div className="ml-4 mt-1 space-y-1">
+                <div className="ml-4 mt-2 space-y-2 border-l border-black/10 pl-4">
                   {item.children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block text-sm text-gray-500"
+                      className="block text-sm text-gris-fonce"
                       onClick={() => setMenuOpen(false)}
                     >
                       {child.label}
@@ -125,17 +146,23 @@ export default function Header() {
               )}
             </div>
           ))}
-          <hr className="border-gray-200" />
-          <Link href="/connexion" className="block text-sm text-gray-700" onClick={() => setMenuOpen(false)}>
-            Se connecter
-          </Link>
-          <Link
-            href="/adhesion"
-            className="block text-center rounded-full bg-fnecs-blue px-5 py-2 text-sm font-semibold text-white uppercase"
-            onClick={() => setMenuOpen(false)}
-          >
-            J&apos;adhère
-          </Link>
+          <hr className="border-black/10" />
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/adhesion"
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-bleu-fede to-vert-fede px-5 font-display text-sm font-bold uppercase tracking-[1.2px] text-white shadow-md shadow-black/10"
+            >
+              J&apos;adhère
+            </Link>
+            <Link
+              href="/connexion"
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex h-10 items-center justify-center rounded-full border border-bleu-confede bg-white px-5 font-display text-sm font-bold uppercase tracking-[1.2px] text-bleu-fede"
+            >
+              Se connecter
+            </Link>
+          </div>
         </div>
       )}
     </header>
