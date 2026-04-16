@@ -1,66 +1,27 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchStrapi, strapiMedia } from '@/lib/strapi';
 
-interface StrapiPartenaire {
-  id: number;
-  documentId: string;
-  nom: string;
-  lien: string | null;
-  ordre: number | null;
-  logo: { url: string } | null;
-}
+// Partenaires hardcodés (logos téléchargés depuis Strapi local vers public/home/partenaires/).
+// Quand Strapi sera déployé en prod (Scaleway), rebasculer sur fetchStrapi + orderPartenaires().
+// Ordre validé par Kevin.
+const PARTENAIRES = [
+  { nom: 'Klesia', lien: 'https://www.klesia.fr/', logo: '/home/partenaires/klesia.svg' },
+  { nom: 'AG2R La Mondiale', lien: 'https://www.ag2rlamondiale.fr/', logo: '/home/partenaires/ag2r.svg' },
+  { nom: 'Malakoff Humanis', lien: 'https://www.malakoffhumanis.com/', logo: '/home/partenaires/malakoff-humanis.png' },
+  { nom: 'Apicil', lien: 'https://mon.apicil.com/', logo: '/home/partenaires/apicil.png' },
+  { nom: 'Uni Prévoyance', lien: 'https://www.uniprevoyance.fr/', logo: '/home/partenaires/uniprevoyance.png' },
+  { nom: 'Groupe VYV', lien: 'https://www.groupe-vyv.fr/', logo: '/home/partenaires/vyv.svg' },
+  { nom: 'OCIRP', lien: 'https://www.ocirp.fr/', logo: '/home/partenaires/ocirp.svg' },
+  { nom: 'Aésio', lien: 'https://www.aesio.fr/', logo: '/home/partenaires/aesio.svg' },
+  { nom: 'La Mutuelle Générale', lien: 'https://www.lamutuellegenerale.fr/', logo: '/home/partenaires/mutuelle-generale.svg' },
+  { nom: 'Macif', lien: 'https://www.macif.fr/', logo: '/home/partenaires/macif.svg' },
+  { nom: 'Up Coop', lien: 'https://up.coop/pourquoi-choisir-upcoop/', logo: '/home/partenaires/upcoop.svg' },
+  { nom: 'Sextant Expertise', lien: 'https://www.sextant-expertise.fr/', logo: '/home/partenaires/sextant.png' },
+  { nom: 'Secafi', lien: 'https://www.secafi.com/evenements-et-ressources/traits-dunion/', logo: '/home/partenaires/secafi.png' },
+] as const;
 
-async function getPartenaires(): Promise<StrapiPartenaire[]> {
-  try {
-    const res = await fetchStrapi<StrapiPartenaire[]>('/partenaires', {
-      'populate': 'logo',
-      'sort': 'ordre:asc',
-      'pagination[pageSize]': '50',
-    });
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-// Ordre d'affichage validé par Kevin (keywords matchés contre Strapi .nom, lowercase)
-const PARTENAIRES_ORDER: Array<{ keyword: string; lien: string }> = [
-  { keyword: 'klesia', lien: 'https://www.klesia.fr/' },
-  { keyword: 'ag2r', lien: 'https://www.ag2rlamondiale.fr/' },
-  { keyword: 'malakoff', lien: 'https://www.malakoffhumanis.com/' },
-  { keyword: 'apicil', lien: 'https://mon.apicil.com/' },
-  { keyword: 'uniprevoyance', lien: 'https://www.uniprevoyance.fr/' },
-  { keyword: 'vyv', lien: 'https://www.groupe-vyv.fr/' },
-  { keyword: 'ocirp', lien: 'https://www.ocirp.fr/' },
-  { keyword: 'aesio', lien: 'https://www.aesio.fr/' },
-  { keyword: 'mutuelle generale', lien: 'https://www.lamutuellegenerale.fr/' },
-  { keyword: 'macif', lien: 'https://www.macif.fr/' },
-  { keyword: 'upcoop', lien: 'https://up.coop/pourquoi-choisir-upcoop/' },
-  { keyword: 'sextant', lien: 'https://www.sextant-expertise.fr/' },
-  { keyword: 'secafi', lien: 'https://www.secafi.com/evenements-et-ressources/traits-dunion/' },
-];
-
-// Normalise pour matching : lowercase + suppression accents + suppression espaces/tirets/underscores
-function normalize(str: string): string {
-  return str
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[\s_-]/g, '');
-}
-
-function orderPartenaires(partenaires: StrapiPartenaire[]): Array<StrapiPartenaire & { lien: string }> {
-  return PARTENAIRES_ORDER.flatMap(({ keyword, lien }) => {
-    const normalizedKeyword = normalize(keyword);
-    const match = partenaires.find((p) => normalize(p.nom).includes(normalizedKeyword));
-    return match ? [{ ...match, lien }] : [];
-  });
-}
-
-export default async function Home() {
-  const partenairesRaw = await getPartenaires();
-  const partenaires = orderPartenaires(partenairesRaw);
+export default function Home() {
+  const partenaires = PARTENAIRES;
   return (
     <>
       {/* Hero — fidèle à Figma nœud 1:257 (Header / 1 /) */}
@@ -1081,30 +1042,25 @@ export default async function Home() {
                 key={rowIndex}
                 className="flex flex-wrap items-center justify-center gap-x-4 gap-y-6 sm:gap-x-6"
               >
-                {row.map((p) => {
-                  const logoUrl = p.logo ? strapiMedia(p.logo.url) : null;
-                  if (!logoUrl) return null;
-
-                  return (
-                    <a
-                      key={p.documentId}
-                      href={p.lien}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={p.nom}
-                      className="flex h-20 w-[130px] shrink-0 items-center justify-center transition-transform hover:scale-105 sm:w-[150px]"
-                    >
-                      <Image
-                        src={logoUrl}
-                        alt={`Logo ${p.nom}`}
-                        width={150}
-                        height={80}
-                        className="max-h-full max-w-full object-contain"
-                        unoptimized
-                      />
-                    </a>
-                  );
-                })}
+                {row.map((p) => (
+                  <a
+                    key={p.nom}
+                    href={p.lien}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={p.nom}
+                    className="flex h-20 w-[130px] shrink-0 items-center justify-center transition-transform hover:scale-105 sm:w-[150px]"
+                  >
+                    <Image
+                      src={p.logo}
+                      alt={`Logo ${p.nom}`}
+                      width={150}
+                      height={80}
+                      className="max-h-full max-w-full object-contain"
+                      unoptimized
+                    />
+                  </a>
+                ))}
               </div>
             ))}
           </div>
