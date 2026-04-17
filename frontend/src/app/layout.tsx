@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Barlow_Condensed } from 'next/font/google';
+import { Barlow, Barlow_Condensed } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const barlow = Barlow({
+  variable: '--font-barlow',
   subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
 });
 
 const barlowCondensed = Barlow_Condensed({
@@ -46,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${barlowCondensed.variable} h-full antialiased`}
+      className={`${barlow.variable} ${barlowCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <Header />
