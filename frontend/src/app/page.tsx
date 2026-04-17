@@ -280,7 +280,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-[40px]">
             {/* Card 1 : Rupture conventionnelle 2026 — blanche, bordure gauche 4px #154fe5 */}
             <article
-              className="flex flex-1 flex-col gap-4 rounded-[20px] border-l-4 border-[#154fe5] bg-white p-6"
+              className="flex flex-1 flex-col gap-4 rounded-[20px] border-l-4 border-transparent p-6 [background:linear-gradient(#fff,#fff)_padding-box,linear-gradient(to_bottom,#154fe5,#008c35)_border-box]"
               style={{ boxShadow: '0px 1px 2px 0px rgba(0,0,0,0.05)' }}
             >
               <span className="inline-flex w-fit items-center rounded-[100px] bg-neutral-lightest px-2 py-1 font-display text-xs font-bold uppercase leading-4 tracking-[1.2px] text-black">
@@ -358,7 +358,7 @@ export default function Home() {
 
             {/* Card 3 : Tourisme social et familial — nouvelle grille 2026 */}
             <article
-              className="flex flex-1 flex-col gap-4 rounded-[20px] border-l-4 border-[#154fe5] bg-white p-6"
+              className="flex flex-1 flex-col gap-4 rounded-[20px] border-l-4 border-transparent p-6 [background:linear-gradient(#fff,#fff)_padding-box,linear-gradient(to_bottom,#154fe5,#008c35)_border-box]"
               style={{ boxShadow: '0px 1px 2px 0px rgba(0,0,0,0.05)' }}
             >
               <span className="inline-flex w-fit items-center rounded-[100px] bg-neutral-lightest px-2 py-1 font-display text-xs font-bold uppercase leading-4 tracking-[1.2px] text-black">
