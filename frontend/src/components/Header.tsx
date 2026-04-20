@@ -17,7 +17,7 @@ const navItems = [
     ],
   },
   { label: 'Actualités', href: '/actualites' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contacts', href: '/contact' },
 ];
 
 export default function Header() {
@@ -56,7 +56,7 @@ export default function Header() {
                 >
                   <Link
                     href={item.href}
-                    className="text-base leading-[1.14] text-black transition-colors hover:text-bleu-fede"
+                    className="text-base font-bold leading-[1.14] text-bleu-fede transition-colors hover:text-bleu-confede"
                   >
                     {item.label}
                   </Link>
@@ -78,6 +78,26 @@ export default function Header() {
             </nav>
 
             <div className="flex items-center gap-[10px]">
+              {/* Loupe recherche — placeholder visuel, à brancher quand /recherche existera */}
+              <button
+                type="button"
+                aria-label="Rechercher"
+                className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-bleu-fede transition-colors hover:bg-bleu-fede/5"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  className="h-5 w-5"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+              </button>
               <Link
                 href="/adhesion"
                 className="inline-flex h-10 w-[160px] items-center justify-center rounded-full bg-gradient-to-r from-bleu-fede to-vert-fede px-5 font-display text-sm font-bold uppercase tracking-[1.2px] text-white transition-[filter] hover:brightness-105"
@@ -125,7 +145,7 @@ export default function Header() {
             <div key={item.href}>
               <Link
                 href={item.href}
-                className="block text-base text-black"
+                className="block text-base font-bold text-bleu-fede"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
